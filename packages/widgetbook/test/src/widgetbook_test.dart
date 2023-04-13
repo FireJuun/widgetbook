@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide RouterDelegate;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
+import 'package:widgetbook/src/routing/route_parser.dart';
+import 'package:widgetbook/src/routing/router_delegate.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 Matcher expectAssertionErrorWithMessage({
@@ -16,27 +17,23 @@ Matcher expectAssertionErrorWithMessage({
   );
 }
 
-GoRouter _getRouter(Widget child) {
-  return GoRouter(
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => child,
-      ),
-    ],
+Router<Object> _getRouter() {
+  return Router(
+    routeInformationParser: RouteParser(),
+    routerDelegate: RouterDelegate(),
   );
 }
 
 Widget _defaultAppBuilderMethod(BuildContext context, Widget child) {
-  final router = _getRouter(child);
+  final router = _getRouter();
   return WidgetsApp.router(
     color: Colors.transparent,
-    builder: (context, childWidget) {
-      return childWidget ?? child;
-    },
     debugShowCheckedModeBanner: false,
     routeInformationParser: router.routeInformationParser,
     routerDelegate: router.routerDelegate,
+    builder: (context, childWidget) {
+      return childWidget ?? child;
+    },
   );
 }
 

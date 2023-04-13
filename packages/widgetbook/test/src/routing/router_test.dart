@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide RouterDelegate;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:widgetbook/src/routing/route_parser.dart';
 import 'package:widgetbook/src/routing/router.dart';
+import 'package:widgetbook/src/routing/router_delegate.dart';
 import 'package:widgetbook/src/state/state.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_core/widgetbook_core.dart';
@@ -84,7 +85,7 @@ void main() {
 
   Future<void> pumpRouter({
     required WidgetTester tester,
-    required GoRouter router,
+    required Router<Object> router,
   }) async {
     await tester.pumpWidget(
       MultiProvider(
@@ -115,10 +116,14 @@ void main() {
           testWidgets(
             'default route',
             (tester) async {
-              final router = createRouter(
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
                   addons: addons,
                   catalog: catalog,
-                  appBuilder: materialAppBuilder);
+                  appBuilder: materialAppBuilder,
+                ),
+              );
 
               await pumpRouter(
                 tester: tester,
@@ -139,11 +144,14 @@ void main() {
           testWidgets(
             'custom route',
             (tester) async {
-              final router = createRouter(
-                initialLocation: '/?path=component-2%2Fuse-case-2.1',
-                addons: addons,
-                catalog: catalog,
-                appBuilder: materialAppBuilder,
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
+                  initialRoute: '/?path=component-2%2Fuse-case-2.1',
+                  addons: addons,
+                  catalog: catalog,
+                  appBuilder: materialAppBuilder,
+                ),
               );
 
               await pumpRouter(
@@ -166,11 +174,14 @@ void main() {
           testWidgets(
             'theme addon value',
             (tester) async {
-              final router = createRouter(
-                initialLocation: '/?theme=Dark',
-                addons: addons,
-                catalog: catalog,
-                appBuilder: materialAppBuilder,
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
+                  initialRoute: '/?theme=Dark',
+                  addons: addons,
+                  catalog: catalog,
+                  appBuilder: materialAppBuilder,
+                ),
               );
 
               await pumpRouter(
@@ -193,11 +204,14 @@ void main() {
           testWidgets(
             'navigation panel only (deprecated)',
             (tester) async {
-              final router = createRouter(
-                initialLocation: '/?disable-properties=true',
-                addons: addons,
-                catalog: catalog,
-                appBuilder: materialAppBuilder,
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
+                  initialRoute: '/?disable-properties=true',
+                  addons: addons,
+                  catalog: catalog,
+                  appBuilder: materialAppBuilder,
+                ),
               );
 
               await pumpRouter(
@@ -216,11 +230,14 @@ void main() {
           testWidgets(
             'navigation panel only',
             (tester) async {
-              final router = createRouter(
-                initialLocation: '/?panels={navigation}',
-                addons: addons,
-                catalog: catalog,
-                appBuilder: materialAppBuilder,
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
+                  initialRoute: '/?panels={navigation}',
+                  addons: addons,
+                  catalog: catalog,
+                  appBuilder: materialAppBuilder,
+                ),
               );
 
               await pumpRouter(
@@ -239,11 +256,14 @@ void main() {
           testWidgets(
             'settings panel only (deprecated)',
             (tester) async {
-              final router = createRouter(
-                initialLocation: '/?disable-navigation=true',
-                addons: addons,
-                catalog: catalog,
-                appBuilder: materialAppBuilder,
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
+                  initialRoute: '/?disable-navigation=true',
+                  addons: addons,
+                  catalog: catalog,
+                  appBuilder: materialAppBuilder,
+                ),
               );
 
               await pumpRouter(
@@ -262,11 +282,14 @@ void main() {
           testWidgets(
             'settings panel only',
             (tester) async {
-              final router = createRouter(
-                initialLocation: '/?panels={knobs,addons}',
-                addons: addons,
-                catalog: catalog,
-                appBuilder: materialAppBuilder,
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
+                  initialRoute: '/?panels={knobs,addons}',
+                  addons: addons,
+                  catalog: catalog,
+                  appBuilder: materialAppBuilder,
+                ),
               );
 
               await pumpRouter(
@@ -285,11 +308,14 @@ void main() {
           testWidgets(
             'addons panel only',
             (tester) async {
-              final router = createRouter(
-                initialLocation: '/?panels={addons}',
-                addons: addons,
-                catalog: catalog,
-                appBuilder: materialAppBuilder,
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
+                  initialRoute: '/?panels={addons}',
+                  addons: addons,
+                  catalog: catalog,
+                  appBuilder: materialAppBuilder,
+                ),
               );
 
               await pumpRouter(
@@ -312,11 +338,14 @@ void main() {
           testWidgets(
             'knobs panel only',
             (tester) async {
-              final router = createRouter(
-                initialLocation: '/?panels={knobs}',
-                addons: addons,
-                catalog: catalog,
-                appBuilder: materialAppBuilder,
+              final router = Router(
+                routeInformationParser: RouteParser(),
+                routerDelegate: RouterDelegate(
+                  initialRoute: '/?panels={knobs}',
+                  addons: addons,
+                  catalog: catalog,
+                  appBuilder: materialAppBuilder,
+                ),
               );
 
               await pumpRouter(
