@@ -37,7 +37,7 @@ class RouterDelegate extends RouterDelegateBase {
               path: _configuration.path,
               panels: _configuration.panels,
               queryParams: {
-                 // Copy from UnmodifiableMap
+                // Copy from UnmodifiableMap
                 ..._configuration.queryParams
               },
               addons: addons,
@@ -47,7 +47,7 @@ class RouterDelegate extends RouterDelegateBase {
             child: WidgetbookShell(
               child: Workbench(),
             ),
-
+          ),
         ),
       ],
     );

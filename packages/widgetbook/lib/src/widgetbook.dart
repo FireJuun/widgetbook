@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart' hide RouterDelegate;
-import 'package:flutter/material.dart' hide RouterDelegate;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:widgetbook/src/messaging/messaging.dart';
-import 'package:widgetbook/src/routing/route_parser.dart';
-import 'package:widgetbook/src/routing/router_delegate.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_core/widgetbook_core.dart';
 
+import 'routing/router.dart';
 import 'state/state.dart';
 
 /// Describes the configuration for your [Widget] library.
@@ -82,10 +81,9 @@ class Widgetbook<CustomTheme> extends StatefulWidget {
 }
 
 class _WidgetbookState<CustomTheme> extends State<Widgetbook<CustomTheme>> {
-  final KnobsNotifier knobsNotifier = KnobsNotifier();
+  late KnobsNotifier knobsNotifier = KnobsNotifier();
   final NavigationBloc navigationBloc = NavigationBloc();
-  final RouteParser routeParser = RouteParser();
-  late final RouterDelegate routerDelegate;
+  late final AppRouter router;
 
   @override
   void initState() {
@@ -95,7 +93,7 @@ class _WidgetbookState<CustomTheme> extends State<Widgetbook<CustomTheme>> {
       ),
     );
 
-    routerDelegate = RouterDelegate(
+    router = AppRouter(
       addons: widget.addons,
       appBuilder: widget.appBuilder,
       catalog: WidgetbookCatalog.fromDirectories(widget.directories),
@@ -137,8 +135,9 @@ class _WidgetbookState<CustomTheme> extends State<Widgetbook<CustomTheme>> {
       child: BlocProvider.value(
         value: navigationBloc,
         child: MaterialApp.router(
-          routeInformationParser: routeParser,
-          routerDelegate: routerDelegate,
+          routerDelegate: router.routerDelegate,
+          routeInformationParser: router.routeInformationParser,
+          routeInformationProvider: router.routeInformationProvider,
           themeMode: ThemeMode.dark,
           debugShowCheckedModeBanner: false,
           darkTheme: Themes.dark,
